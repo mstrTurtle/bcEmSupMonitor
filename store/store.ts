@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { Re } from "@/components/em-status/report";
 
 
 enum Status{
@@ -16,7 +17,14 @@ const status = makeAutoObservable({
 })
 
 const progress = makeAutoObservable({
-    val: 0
+    val: {
+        count:0,
+        total:0,
+    }
 })
 
-export  {Status,status,progress}
+const report = makeAutoObservable<{val:Re|null}>({
+    val :null
+})
+
+export  {Status,status,progress,report}
