@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button, FloatButton } from 'antd';
 import { useEffect } from 'react';
 import { Receiver } from '@/components/sup_monitor';
+import Head from 'next/head';
 
 export default function Page() {
     const onClick = ()=>{
@@ -15,11 +16,14 @@ export default function Page() {
 
     }
     return <>
+    <Head>
+        <title>Blockemulator Supervisor Monitor</title>
+    </Head>
 
         <Link href={'https://github.com'} >
             <FloatButton />
         </Link>
         <Decorate></Decorate>
-        <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>Hello, Next.js!</h1></main>
+        <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>2024</h1></main>
     </>
 }

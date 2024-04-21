@@ -7,6 +7,6 @@ export default function Page() {
     <Link href={'https://github.com'} >
     <FloatButton  /></Link>
     <App/>
-    <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>Hello, Next.js!</h1></main>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>2024</h1></main>
     </>
   }
