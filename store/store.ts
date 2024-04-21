@@ -23,8 +23,12 @@ const progress = makeAutoObservable({
     }
 })
 
-const report = makeAutoObservable<{val:Re|null}>({
-    val :null
+const report = makeAutoObservable<{val:Re}>({
+    val :{
+        pbftShardCsv: [],
+        measureOutputs: [],
+    }
+    
 })
 
 export  {Status,status,progress,report}

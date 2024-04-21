@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-
+import datetime
 import websockets
 
 
@@ -19,9 +19,14 @@ started = json.dumps({
     "content": None
     })
 completed = json.dumps({
-    "type":"started",
-    "content": None
-    })
+    "type":"completed",
+    "content": {
+        "pbftShardCsv":[{"txpool_size":100,"tx":11,"ctx":12}],
+        "measureOutputs":[
+            {"name":"avgSTP", "vals":[12,13,41]},
+        ]
+    }
+})
 computing = lambda i: json.dumps({
     "type":"computing",
     "content": {
@@ -30,27 +35,37 @@ computing = lambda i: json.dumps({
     }
     })
         
-        
+ptime= lambda : print(datetime.datetime.now())
+
 async def handler(ws:websockets.WebSocketServerProtocol):
-    await ws.send(hello)
-    
-    await asyncio.sleep(3)
-    await ws.send(started)
-    
-    for i in range(10):
-        await asyncio.sleep(3)
-        await ws.send(computing(i))
+    try:
+        ptime()
+        print("in handler")
+        await ws.send(hello)
+        ptime()
+        print("sent hello")
         
-    await asyncio.sleep(3)
-    await ws.send(completed)
-    
-    
-    await asyncio.sleep(3)
-    await ws.send(bye)
+        await asyncio.sleep(3)
+        await ws.send(started)
+        print("sent started")
+        
+        for i in range(1):
+            await asyncio.sleep(1)
+            await ws.send(computing(i))
+            
+        await asyncio.sleep(1)
+        await ws.send(completed)
+        
+        
+        await asyncio.sleep(1)
+        await ws.send(bye)
+    except Exception as e:
+        ptime()
+        print(f"Exception: {e}")
 
 
 async def main():
-    async with websockets.serve(handler, "", 7697):
+    async with websockets.serve(handler, "0.0.0.0", 7697):
         await asyncio.Future()  # run forever
 
 

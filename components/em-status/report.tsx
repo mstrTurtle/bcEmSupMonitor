@@ -1,3 +1,6 @@
+import { report } from "@/store/store"
+import { Button } from "antd"
+
 export interface Re {
     pbftShardCsv: {
         txpool_size: number
@@ -12,26 +15,45 @@ export interface Re {
 }
 
 interface Props{ // for hinting
-    report:Re
+    report:{val:Re}
 }
 
-export const rr: React.FC<Props> = ({ report }) => {
+const f = ()=>{
+    console.log(report)
+    return <></>
+}
+
+// 输出并下载json
+function downloadObjectAsJson(exportObj:object, exportName:string){
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+
+export const Report: React.FC<Props> = ({ report }) => {
     return <>
+    <Button type="primary" onClick={()=>{downloadObjectAsJson(report.val,"report")}}>下载json</Button>
     <div>Shard结果</div>
-        <div>{JSON.stringify(report.pbftShardCsv)}</div>
+        <div>{JSON.stringify(report.val.pbftShardCsv)}</div>
         <div>测度输出</div>
+        {f()}
         {
-            report.measureOutputs.map(
+            report.val.measureOutputs.map(
                 ({name,vals})=>{
                     return <div>
                         <div>测度名：{name}</div>
                         <div>测度值：</div>
-                        <div>{vals}</div>
+                        <div>{JSON.stringify(vals)}</div>
                     </div>
                 }
             )
         }
-        <div>{JSON.stringify(report.measureOutputs)}</div>
+        <div>{JSON.stringify(report.val.measureOutputs)}</div>
     </>
 }
 
