@@ -55,8 +55,7 @@ const Nav: React.FC<Props> = observer(({ status }) => {
 
 
 const dec = ()=>{
-    return
-    <>
+    return <>
     <Header status={status}></Header>
     
     </>
