@@ -45,7 +45,7 @@ export const Report: React.FC<Props> = ({ report }) => {
         {
             report.val.measureOutputs.map(
                 ({name,vals})=>{
-                    return <div>
+                    return <div key={name}>
                         <div>测度名：{name}</div>
                         <div>测度值：</div>
                         <div>{JSON.stringify(vals)}</div>
