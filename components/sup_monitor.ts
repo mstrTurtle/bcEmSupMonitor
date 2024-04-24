@@ -90,7 +90,7 @@ export class Receiver {
         console.log("in start")
         // const ws = await this.retryTillConnect();
         // await this.receiveMsgLoop(ws);
-        const ws = new WebSocket("ws://localhost:7697")
+        const ws = new WebSocket("ws://localhost:7697/api/status")
         ws.onopen=(ev)=>{
             console.log("opened")
             ws.onmessage=(ev)=>{
