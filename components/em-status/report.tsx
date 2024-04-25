@@ -1,5 +1,5 @@
 import { report } from "@/store/store"
-import { Button } from "antd"
+import { Button, Table } from "antd"
 
 export interface Re {
     pbftShardCsv: {
@@ -34,26 +34,51 @@ function downloadObjectAsJson(exportObj:object, exportName:string){
     downloadAnchorNode.remove();
   }
 
+const columns = [
+    {
+      title: '测度名',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '测度值',
+      dataIndex: 'vals',
+      key: 'vals',
+    },
+];
+
+const ff = (outputs: {
+    name: string;
+    vals: number[];
+}[])=>{
+    return outputs.map(({name,vals},idx)=>{
+        return {name,vals:(JSON.stringify(vals)),key:idx}
+    })
+}
 
 export const Report: React.FC<Props> = ({ report }) => {
     return <>
     <Button type="primary" onClick={()=>{downloadObjectAsJson(report.val,"report")}}>下载json</Button>
-    <div>Shard结果</div>
-        <div>{JSON.stringify(report.val.pbftShardCsv)}</div>
-        <div>测度输出</div>
+    <div className="font-bold">Shard结果：</div>
+        <div className="font-mono">{JSON.stringify(report.val.pbftShardCsv)}</div>
+        <hr className="h-8"/>
+        <div className="font-bold">测度输出</div>
         {f()}
-        {
+        <Table dataSource={ff(report.val.measureOutputs)} columns={columns}/>
+        {/* {
             report.val.measureOutputs.map(
                 ({name,vals})=>{
                     return <div key={name}>
-                        <div>测度名：{name}</div>
-                        <div>测度值：</div>
+                        <div className="">测度名：</div>
+                        <div className="">{name}</div>
+                        <div className="">测度值：</div>
                         <div>{JSON.stringify(vals)}</div>
                     </div>
                 }
             )
-        }
-        <div>{JSON.stringify(report.val.measureOutputs)}</div>
+        } */}
+        <div className="">总的值</div>
+        <div className="font-mono">{JSON.stringify(report.val.measureOutputs)}</div>
     </>
 }
 

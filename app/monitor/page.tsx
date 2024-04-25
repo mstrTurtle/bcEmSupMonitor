@@ -5,6 +5,7 @@ import { Button, FloatButton } from 'antd';
 import { useEffect } from 'react';
 import { Receiver } from '@/components/sup_monitor';
 import Head from 'next/head';
+import { report } from '@/store/store';
 
 export default function Page() {
     const onClick = ()=>{
@@ -24,6 +25,6 @@ export default function Page() {
             <FloatButton />
         </Link>
         <Decorate></Decorate>
-        <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>2024</h1></main>
+        {/* <main className="flex min-h-screen flex-col items-center justify-between p-24"><h1>2024</h1></main> */}
     </>
 }
