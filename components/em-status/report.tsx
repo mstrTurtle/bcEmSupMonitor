@@ -1,5 +1,7 @@
 import { report } from "@/store/store"
-import { Button, Table } from "antd"
+import { Button, Table, Typography } from "antd"
+
+const { Title, Paragraph, Text, Link } = Typography;
 
 export interface Re {
     pbftShardCsv: {
@@ -47,6 +49,20 @@ const columns = [
     },
 ];
 
+
+const columns1 = [
+    {
+      title: 'txpool大小',
+      dataIndex: 'txpool_size',
+      key: 'txpool_size',
+    },
+    {
+      title: 'tx计数',
+      dataIndex: 'tx',
+      key: 'tx',
+    },
+];
+
 const ff = (outputs: {
     name: string;
     vals: number[];
@@ -58,9 +74,10 @@ const ff = (outputs: {
 
 export const Report: React.FC<Props> = ({ report }) => {
     return <>
-    <Button type="primary" onClick={()=>{downloadObjectAsJson(report.val,"report")}}>下载json</Button>
+    <Button type="primary" onClick={()=>{downloadObjectAsJson(report.val,"report")}}>导出并下载json</Button>
     <div className="font-bold">Shard结果：</div>
-        <div className="font-mono">{JSON.stringify(report.val.pbftShardCsv)}</div>
+        {/* <div className="font-mono">{JSON.stringify(report.val.pbftShardCsv)}</div> */}
+        <Table dataSource={(report.val.pbftShardCsv)} columns={columns1}/>
         <hr className="h-8"/>
         <div className="font-bold">测度输出</div>
         {f()}
@@ -77,8 +94,12 @@ export const Report: React.FC<Props> = ({ report }) => {
                 }
             )
         } */}
-        <div className="">总的值</div>
-        <div className="font-mono">{JSON.stringify(report.val.measureOutputs)}</div>
+        <Typography>
+        <Paragraph>
+            <blockquote>原始输出</blockquote>
+            <pre>{JSON.stringify(report.val.measureOutputs)}</pre>
+        </Paragraph>
+        </Typography>
     </>
 }
 
