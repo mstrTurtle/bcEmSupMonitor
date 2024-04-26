@@ -1,5 +1,10 @@
 import { report } from "@/store/store"
-import { Button, Table, Typography } from "antd"
+import { Button, NotificationArgsProps, Table, Tabs, TabsProps, Tag, Tooltip, Typography, notification } from "antd"
+
+import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
+import React, { useMemo } from "react";
+import {PbftBarChart} from "@/components/bar";
+import {InfoCircleTwoTone} from "@ant-design/icons"
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -11,6 +16,7 @@ export interface Re {
     }[]
     measureOutputs: {
         name: string
+        desc: string
         vals: number[]
     }[]
 
@@ -63,42 +69,80 @@ const columns1 = [
     },
 ];
 
+// 处理测度输出的
 const ff = (outputs: {
     name: string;
+    desc: string;
     vals: number[];
-}[])=>{
-    return outputs.map(({name,vals},idx)=>{
-        return {name,vals:(JSON.stringify(vals)),key:idx}
+}[]) => {
+    return outputs.map(({ name,  desc, vals }, idx) => {
+        return {
+            name:<>
+                <b className="m-4">{name}</b>
+                <Tooltip placement="right" title={desc} >
+                <InfoCircleTwoTone className="text-lg" />  {/* 拿来当Tooltip用的，显示单位 */}
+                </Tooltip>
+            </>, vals: <>{((vals.map((n: number) => {
+                return <>
+                    <Tag>{n.toFixed(2)}</Tag>
+                </>
+            })))}</>, key: idx
+        }
     })
 }
 
+const Context = React.createContext({ name: 'Default' }); // 负责弹窗的Context
+
 export const Report: React.FC<Props> = ({ report }) => {
+    var csvData = report.val.pbftShardCsv.map(({txpool_size,tx,ctx},idx)=>{return {round:idx,txpool_size,tx}})
+
+    const items: TabsProps['items'] = [
+        {
+          key: '1',
+          label: '表格视图',
+          children: <Table dataSource={(report.val.pbftShardCsv)} columns={columns1} />,
+          icon: <AppleOutlined/>,
+        },
+        {
+          key: '2',
+          label: '柱状图视图',
+          children: <PbftBarChart report={report}/>,
+          icon: <AndroidOutlined/>,
+        },
+      ];
+    
+      const [api, contextHolder] = notification.useNotification();
+
+      const openNotification = (msg: string) => {
+        api.info({
+          message: msg,
+          description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,
+          placement:"bottomRight",
+        });
+      };
+
+      
+  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
+
     return <>
-    <Button type="primary" onClick={()=>{downloadObjectAsJson(report.val,"report")}}>导出并下载json</Button>
-    <div className="font-bold">Shard结果：</div>
-        {/* <div className="font-mono">{JSON.stringify(report.val.pbftShardCsv)}</div> */}
-        <Table dataSource={(report.val.pbftShardCsv)} columns={columns1}/>
-        <hr className="h-8"/>
+        <div className="flex flex-row-reverse">
+            <Button className="mr-12" type="primary" onClick={() => { downloadObjectAsJson(report.val, "report") }}>导出并下载json</Button>
+        </div>
+        <div className="font-bold">PBFT交易池统计结果：</div>
+        
+        <Context.Provider value={contextValue}>
+            {contextHolder}
+            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(`切换到面板${key}`) }} />;
+        </Context.Provider>
+        <hr className="my-12" />
         <div className="font-bold">测度输出</div>
         {f()}
-        <Table dataSource={ff(report.val.measureOutputs)} columns={columns}/>
-        {/* {
-            report.val.measureOutputs.map(
-                ({name,vals})=>{
-                    return <div key={name}>
-                        <div className="">测度名：</div>
-                        <div className="">{name}</div>
-                        <div className="">测度值：</div>
-                        <div>{JSON.stringify(vals)}</div>
-                    </div>
-                }
-            )
-        } */}
+        <Table dataSource={ff(report.val.measureOutputs)} columns={columns} />
         <Typography>
-        <Paragraph>
-            <blockquote>原始输出</blockquote>
-            <pre>{JSON.stringify(report.val.measureOutputs)}</pre>
-        </Paragraph>
+            <Paragraph>
+                <blockquote>原始输出</blockquote>
+                <pre>{JSON.stringify(report.val.measureOutputs)}</pre>
+            </Paragraph>
         </Typography>
     </>
 }

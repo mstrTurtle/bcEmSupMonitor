@@ -67,19 +67,19 @@ const Nav: React.FC<Props> = observer(({ status }) => {
                         return <div className="flex">
                              <div className="rounded-lg border-2 border-blue-500 shadow mx-auto  w-6/12">
 
-                            <Flex wrap="wrap" gap="middle" style={{ marginTop: 16 }}>
+                            <Flex wrap="wrap" gap="middle" style={{ margin: 16 }}>
                                 <Progress
                                     type="dashboard"
                                     steps={8}
-                                    percent={progress.val.count/progress.val.total*100}
+                                    percent={Math.round(100*progress.val.count/progress.val.total)}
                                     trailColor="rgba(0, 0, 0, 0.06)"
                                     strokeWidth={20}
                                 />
                                 <Spin size="large"/>
                             </Flex>
-                            <div>正在运行中:</div>
-                            <div>有{progress.val.count}个交易处理完毕</div>
-                            <div>这次运行的总量为{progress.val.total}个交易。</div>
+                            <div className="m-8 text-xl">正在运行中:</div>
+                            <div className="m-8 text-xl">有<b>{progress.val.count}</b>个交易处理完毕</div>
+                            <div className="m-8 text-xl">这次运行的总量为<b>{progress.val.total}</b>个交易。</div>
                         </div>
                         </div>
                     case Status.RunningFailed:
@@ -114,7 +114,7 @@ const Nav: React.FC<Props> = observer(({ status }) => {
 
 
 const dec = ()=>{
-    return <div className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] w-6/12 flex flex-col">
+    return <div className="absolute left-1/2 top-5 translate-x-[-50%]  w-6/12 flex flex-col">
     <Header status={status}></Header>
     <Nav status={status}></Nav>
     

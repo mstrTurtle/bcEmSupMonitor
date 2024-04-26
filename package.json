@@ -9,11 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.1.0",
+    "@antv/g2plot": "^2.4.31",
+    "@faker-js/faker": "^8.4.1",
     "antd": "^5.16.2",
+    "chart.js": "^4.4.2",
+    "faker": "^6.6.6",
+    "faker-js": "^1.0.0",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "next": "14.2.2",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "rxjs": "^7.8.1",
     "websocket-as-promised": "^2.0.1"
