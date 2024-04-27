@@ -21,10 +21,10 @@ started = json.dumps({
 completed = json.dumps({
     "type":"completed",
     "content": {
-        "pbftShardCsv":[{"txpool_size":100,"tx":11,"ctx":12}],
+        "pbftShardCsv":[{"txpool_size":100,"tx":11,"ctx":12}]*100,
         "measureOutputs":[
             {"name":"avgSTP", "vals":[12,13,41]},
-        ]
+        ]*100
     }
 })
 computing = lambda i: json.dumps({
@@ -45,15 +45,15 @@ async def handler(ws:websockets.WebSocketServerProtocol):
         ptime()
         print("sent hello")
         
-        await asyncio.sleep(3)
+        # await asyncio.sleep(1)
         await ws.send(started)
         print("sent started")
         
-        for i in range(1):
-            await asyncio.sleep(1)
+        for i in range(10):
+            # await asyncio.sleep(0)
             await ws.send(computing(i))
             
-        await asyncio.sleep(1)
+        # await asyncio.sleep(1)
         await ws.send(completed)
         
         

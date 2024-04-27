@@ -44,6 +44,11 @@ function downloadObjectAsJson(exportObj:object, exportName:string){
 
 const columns = [
     {
+        title: '轮数',
+        dataIndex: 'round',
+        key: 'round',
+      },
+    {
       title: '测度名',
       dataIndex: 'name',
       key: 'name',
@@ -100,7 +105,7 @@ export const Report: React.FC<Props> = ({ report }) => {
         {
           key: '1',
           label: '表格视图',
-          children: <Table dataSource={(report.val.pbftShardCsv)} columns={columns1} />,
+          children: <Table dataSource={(csvData)} columns={columns1} />,
           icon: <AppleOutlined/>,
         },
         {
