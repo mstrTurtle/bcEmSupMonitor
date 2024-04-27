@@ -44,11 +44,6 @@ function downloadObjectAsJson(exportObj:object, exportName:string){
 
 const columns = [
     {
-        title: '轮数',
-        dataIndex: 'round',
-        key: 'round',
-      },
-    {
       title: '测度名',
       dataIndex: 'name',
       key: 'name',
@@ -62,6 +57,11 @@ const columns = [
 
 
 const columns1 = [
+    {
+        title: '轮数',
+        dataIndex: 'round',
+        key: 'round',
+    },
     {
       title: 'txpool大小',
       dataIndex: 'txpool_size',
@@ -99,7 +99,7 @@ const ff = (outputs: {
 const Context = React.createContext({ name: 'Default' }); // 负责弹窗的Context
 
 export const Report: React.FC<Props> = ({ report }) => {
-    var csvData = report.val.pbftShardCsv.map(({txpool_size,tx,ctx},idx)=>{return {round:idx,txpool_size,tx}})
+    var csvData = report.val.pbftShardCsv.map(({txpool_size,tx,ctx},idx)=>{return {round:idx+1,txpool_size,tx}})
 
     const items: TabsProps['items'] = [
         {
