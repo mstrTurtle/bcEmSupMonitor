@@ -1,12 +1,14 @@
 import { report } from "@/store/store"
 import { Button, NotificationArgsProps, Table, Tabs, TabsProps, Tag, Tooltip, Typography, notification } from "antd"
 
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
+import { AndroidOutlined, AppleOutlined,TableOutlined,BarChartOutlined } from '@ant-design/icons';
 import React, { useMemo } from "react";
 import {PbftBarChart} from "@/components/bar";
 import {InfoCircleTwoTone} from "@ant-design/icons"
 import MetricsTree from "../metricstree";
 import JsonView from "@uiw/react-json-view";
+import { monokaiTheme } from "@uiw/react-json-view/monokai";
+import MetricsDrawer from "../metricsdrawer";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -116,28 +118,29 @@ export const Report: React.FC<Props> = ({ report }) => {
           key: '1',
           label: '表格视图',
           children: <Table dataSource={(csvData)} columns={columns1} />,
-          icon: <AppleOutlined/>,
+          icon: <TableOutlined />,
         },
         {
           key: '2',
           label: '柱状图视图',
           children: <PbftBarChart report={report}/>,
-          icon: <AndroidOutlined/>,
+          icon: <BarChartOutlined/>,
         },
       ];
     
       const [api, contextHolder] = notification.useNotification();
 
-      const openNotification = (msg: string) => {
+      const openNotification = (key: string) => {
+        const msg = (key=='0'?(`切换到表格视图`):(`切换到分组柱状图视图`))
         api.info({
           message: msg,
-          description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,
+          description: <Context.Consumer>{({ name }) => `${name}`}</Context.Consumer>,
           placement:"bottomRight",
         });
       };
 
       
-  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
+  const contextValue = useMemo(() => ({ name: '切换成功' }), []);
   console.log("MOS:")
   console.log(report.val.measureOutputs)
 
@@ -150,16 +153,17 @@ export const Report: React.FC<Props> = ({ report }) => {
         
         <Context.Provider value={contextValue}>
             {contextHolder}
-            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(`切换到面板${key}`) }} />
+            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(key) }} />
         </Context.Provider>
         {/* <hr className="my-12" /> */}
         <div className="font-bold text-xl my-8 mx-2">测度输出</div>
         {f()}
         {/* <Table dataSource={ff(report.val.measureOutputs)} columns={columns} /> */}
-        <MetricsTree mos={report.val.measureOutputs}></MetricsTree>
+        {/* <MetricsTree mos={report.val.measureOutputs}></MetricsTree> */}
+        <MetricsDrawer mos={report.val.measureOutputs}></MetricsDrawer>
 
         <div className="font-bold text-xl my-8 mx-2">原始输出</div>
-        <JsonView value={report.val.measureOutputs}></JsonView>
+        <JsonView value={report.val.measureOutputs} style={monokaiTheme}></JsonView>
 
     </>
 }
