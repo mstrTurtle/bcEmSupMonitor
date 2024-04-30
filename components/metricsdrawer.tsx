@@ -25,7 +25,7 @@ const makeData: ((mos: Mo[]) => CollapseProps['items']) = (ms: Mo[]) => {
                     m.elems.map((v, j) => {
                         
                         let desc = v.desc?v.desc:"（没有描述）"
-                        return <div className='flex flex-row content-between m-4 items-center'>
+                        return <div key={v.name} className='flex flex-row content-between m-4 items-center'>
                             <div className='shrink mx-4 font-bold'>{v.name}</div>
                             <Tooltip title={desc} placement='right'>
                             <div className='shrink text-xs font-mono'>(?)</div>
