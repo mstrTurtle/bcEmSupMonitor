@@ -18,15 +18,119 @@ started = json.dumps({
     "type":"started",
     "content": None
     })
-completed = json.dumps({
-    "type":"completed",
+completed = """
+{
+    "type": "completed",
     "content": {
-        "pbftShardCsv":[{"txpool_size":100,"tx":11,"ctx":12}]*100,
-        "measureOutputs":[
-            {"name":"avgSTP", "vals":[12,13,41]},
-        ]*100
+        "pbftShardCsv": [
+            {
+                "txpool_size": 2000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 10000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 10000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 8000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 6000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 4000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 2000,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 0,
+                "tx": 2000,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 0,
+                "tx": 0,
+                "ctx": 0
+            },
+            {
+                "txpool_size": 0,
+                "tx": 0,
+                "ctx": 0
+            }
+        ],
+        "measureOutputs": [
+            {
+                "name": "CPU时间",
+                "desc": "交易计数，是指对交易的计数。",
+                "elems": [
+                    {
+                        "name": "节点1 CPU时间",
+                        "desc": "",
+                        "val": 0.015625
+                    },
+                    {
+                        "name": "节点2 CPU时间",
+                        "desc": "",
+                        "val": 0.0625
+                    },
+                    {
+                        "name": "节点0 CPU时间",
+                        "desc": "",
+                        "val": 0.046875
+                    },
+                    {
+                        "name": "平均计数",
+                        "desc": "",
+                        "val": 0.041666666666666664
+                    }
+                ]
+            },
+            {
+                "name": "EMma时间",
+                "desc": "交易计数，是指对交易的计数。",
+                "elems": [
+                    {
+                        "name": "节点1 CPU时间",
+                        "desc": "",
+                        "val": 0.015625
+                    },
+                    {
+                        "name": "节点2 CPU时间",
+                        "desc": "",
+                        "val": 0.0625
+                    },
+                    {
+                        "name": "节点0 CPU时间",
+                        "desc": "",
+                        "val": 0.046875
+                    },
+                    {
+                        "name": "平均计数",
+                        "desc": "",
+                        "val": 0.041666666666666664
+                    }
+                ]
+            }
+        ]
     }
-})
+}
+"""
 computing = lambda i: json.dumps({
     "type":"computing",
     "content": {

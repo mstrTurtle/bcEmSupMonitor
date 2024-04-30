@@ -11,21 +11,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
-
-
-export interface Re {
-    pbftShardCsv: {
-        txpool_size: number
-        tx: number
-        ctx: number
-    }[]
-    measureOutputs: {
-        name: string
-        desc: string
-        vals: number[]
-    }[]
-
-}
+import { Re } from './em-status/report';
 
 
 interface Props{ // for hinting

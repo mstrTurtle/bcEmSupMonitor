@@ -12,6 +12,7 @@
     "@ant-design/charts": "^2.1.0",
     "@antv/g2plot": "^2.4.31",
     "@faker-js/faker": "^8.4.1",
+    "@uiw/react-json-view": "^2.0.0-alpha.24",
     "antd": "^5.16.2",
     "chart.js": "^4.4.2",
     "faker": "^6.6.6",

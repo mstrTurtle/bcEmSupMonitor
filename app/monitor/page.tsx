@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Receiver } from '@/components/sup_monitor';
 import Head from 'next/head';
 import { report } from '@/store/store';
+import MetricsTree from '@/components/metricstree';
 
 export default function Page() {
     const onClick = ()=>{

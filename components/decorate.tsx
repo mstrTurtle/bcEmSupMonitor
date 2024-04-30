@@ -96,7 +96,6 @@ const Nav: React.FC<Props> = observer(({ status }) => {
                                 title="运行完毕!"
                             />
                             <article className="text-wrap rounded-lg border-8 shadow bg-white">
-                                <h3 className="text-2xl border-white ">报告</h3>
                                 <div className="rounded-lg border-white border-8">
                                     <RR report={report} ></RR>
                                 </div>

@@ -5,6 +5,8 @@ import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import React, { useMemo } from "react";
 import {PbftBarChart} from "@/components/bar";
 import {InfoCircleTwoTone} from "@ant-design/icons"
+import MetricsTree from "../metricstree";
+import JsonView from "@uiw/react-json-view";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -14,12 +16,20 @@ export interface Re {
         tx: number
         ctx: number
     }[]
-    measureOutputs: {
-        name: string
-        desc: string
-        vals: number[]
-    }[]
+    measureOutputs: Mo[]
 
+}
+
+export interface Mo{
+    name: string
+    desc: string
+    elems: Elem[]
+}
+
+export interface Elem {
+    name: string
+    desc: string
+    val: number | string
 }
 
 interface Props{ // for hinting
@@ -128,27 +138,29 @@ export const Report: React.FC<Props> = ({ report }) => {
 
       
   const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
+  console.log("MOS:")
+  console.log(report.val.measureOutputs)
 
     return <>
-        <div className="flex flex-row-reverse">
+        <div className="flex flex-row justify-between items-center">
+            <h3 className="text-3xl border-white font-bold m-4">报告</h3>
             <Button className="mr-12" type="primary" onClick={() => { downloadObjectAsJson(report.val, "report") }}>导出并下载json</Button>
         </div>
-        <div className="font-bold">PBFT交易池统计结果：</div>
+        <div className="font-bold text-xl my-8 mx-2">PBFT交易池统计结果</div>
         
         <Context.Provider value={contextValue}>
             {contextHolder}
-            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(`切换到面板${key}`) }} />;
+            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(`切换到面板${key}`) }} />
         </Context.Provider>
-        <hr className="my-12" />
-        <div className="font-bold">测度输出</div>
+        {/* <hr className="my-12" /> */}
+        <div className="font-bold text-xl my-8 mx-2">测度输出</div>
         {f()}
-        <Table dataSource={ff(report.val.measureOutputs)} columns={columns} />
-        <Typography>
-            <Paragraph>
-                <blockquote>原始输出</blockquote>
-                <pre>{JSON.stringify(report.val.measureOutputs)}</pre>
-            </Paragraph>
-        </Typography>
+        {/* <Table dataSource={ff(report.val.measureOutputs)} columns={columns} /> */}
+        <MetricsTree mos={report.val.measureOutputs}></MetricsTree>
+
+        <div className="font-bold text-xl my-8 mx-2">原始输出</div>
+        <JsonView value={report.val.measureOutputs}></JsonView>
+
     </>
 }
 
