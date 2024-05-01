@@ -3,7 +3,7 @@ import type { CollapseProps } from 'antd';
 import { Collapse, Tooltip } from 'antd';
 
 import type { TreeDataNode, TreeProps } from 'antd';
-import { FlagOutlined, NumberOutlined, FormOutlined } from '@ant-design/icons';
+import { FlagOutlined, NumberOutlined, FormOutlined,InfoCircleTwoTone } from '@ant-design/icons';
 
 import { Mo } from './em-status/report';
 import _ from 'lodash';
@@ -21,6 +21,7 @@ const makeData: ((mos: Mo[]) => CollapseProps['items']) = (ms: Mo[]) => {
             label: m.name,
             key: `${i}`,
             children: <div>
+                <div className='italic text-sky-600'>“{m.name}”统计量： {m.desc}</div>
                 {
                     m.elems.map((v, j) => {
                         
@@ -28,7 +29,7 @@ const makeData: ((mos: Mo[]) => CollapseProps['items']) = (ms: Mo[]) => {
                         return <div key={v.name} className='flex flex-row content-between m-4 items-center'>
                             <div className='shrink mx-4 font-bold'>{v.name}</div>
                             <Tooltip title={desc} placement='right'>
-                            <div className='shrink text-xs font-mono'>(?)</div>
+                            <div className='shrink text-xs font-mono'><InfoCircleTwoTone /></div>
                             </Tooltip>
                             <div className='grow'/>
                             <div className='font-bold font-mono'>{(v.val)}</div>
@@ -42,29 +43,29 @@ const makeData: ((mos: Mo[]) => CollapseProps['items']) = (ms: Mo[]) => {
     })
 }
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+// const text = `
+//   A dog is a type of domesticated animal.
+//   Known for its loyalty and faithfulness,
+//   it can be found as a welcome guest in many households across the world.
+// `;
 
-const items: CollapseProps['items'] = [
-  {
-    key: '1',
-    label: 'This is panel header 1',
-    children: <p>{text}</p>,
-  },
-  {
-    key: '2',
-    label: 'This is panel header 2',
-    children: <p>{text}</p>,
-  },
-  {
-    key: '3',
-    label: 'This is panel header 3',
-    children: <p>{text}</p>,
-  },
-];
+// const items: CollapseProps['items'] = [
+//   {
+//     key: '1',
+//     label: 'This is panel header 1',
+//     children: <p>{text}</p>,
+//   },
+//   {
+//     key: '2',
+//     label: 'This is panel header 2',
+//     children: <p>{text}</p>,
+//   },
+//   {
+//     key: '3',
+//     label: 'This is panel header 3',
+//     children: <p>{text}</p>,
+//   },
+// ];
 
 const genStrList = (n:number)=>{
     const r = _.range(n).map((i)=>i.toString())
