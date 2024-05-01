@@ -153,7 +153,7 @@ export const Report: React.FC<Props> = ({ report }) => {
         
         <Context.Provider value={contextValue}>
             {contextHolder}
-            <Tabs defaultActiveKey="1" items={items} centered onChange={(key: string) => { openNotification(key) }} />
+            <Tabs defaultActiveKey="1" items={items} centered /* onChange={(key: string) => { openNotification(key) }} */ />
         </Context.Provider>
         {/* <hr className="my-12" /> */}
         <div className="font-bold text-xl my-8 mx-2">测度输出</div>

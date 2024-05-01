@@ -144,7 +144,7 @@ class StateMachine{
     connected(m:Msg):StateT{
         if(m.type=='started'){
             runInAction(() => {
-                status.val = Status.Running
+                status.val = Status.Started
                 // progress.val = m.content
             })
             return this.computing
@@ -157,6 +157,7 @@ class StateMachine{
     computing(m:Msg):StateT{
         if(m.type=='computing'){
             runInAction(() => {
+                status.val = Status.Running
                 progress.val = m.content
             })
             return this.computing

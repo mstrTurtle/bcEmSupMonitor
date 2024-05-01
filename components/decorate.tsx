@@ -56,18 +56,20 @@ const Nav: React.FC<Props> = observer(({ status }) => {
                     case Status.Init:
                         return <>初始状态 正在连接到Sup服务器。<Spin size="large"/><Hello></Hello></>
                     case Status.Connected:
-                        return <div className="grow">连接成功 Sup还没开始运行。等待Sup开始运行。<Spin size="large"/></div>
+                        return <div className="flex flex-col items-center"><Spin size="large"/>连接成功 Sup还没开始运行。等待Sup开始运行。</div>
                     case Status.ConnectionFailed:
                         return   <Result
                         status="error"
                         title="连接失败"
                         subTitle="请关闭后重新启动"
                       />
+                    case Status.Started:
+                        return <div className="flex flex-col items-center"><Spin size="large"/>Sup已开始运行。等待Sup的返回结果。</div>
                     case Status.Running:
                         return <div className="flex">
                              <div className="rounded-lg border-2 border-blue-500 shadow mx-auto  w-6/12">
 
-                            <Flex wrap="wrap" gap="middle" style={{ margin: 16 }}>
+                            <Flex gap="middle" align="center" justify="space-between" style={{ margin: 16 }} vertical>
                                 <Progress
                                     type="dashboard"
                                     steps={8}
@@ -77,9 +79,13 @@ const Nav: React.FC<Props> = observer(({ status }) => {
                                 />
                                 <Spin size="large"/>
                             </Flex>
-                            <div className="m-8 text-xl">正在运行中:</div>
+                            {progress.val.count!=progress.val.total?<>
+                                <div className="m-8 text-xl">正在运行中:</div>
                             <div className="m-8 text-xl">有<b>{progress.val.count}</b>个交易处理完毕</div>
                             <div className="m-8 text-xl">这次运行的总量为<b>{progress.val.total}</b>个交易。</div>
+                            </>:<>
+                                处理已结束，Supervisor正在汇总Metrics。等待Supervisor返回Complete消息。
+                            </>}
                         </div>
                         </div>
                     case Status.RunningFailed:

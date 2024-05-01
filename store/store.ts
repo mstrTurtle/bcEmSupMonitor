@@ -6,6 +6,7 @@ enum Status{
     Init,
     Connected,
     ConnectionFailed,
+    Started,
     Running,
     RunningFailed,
     Completed,
